@@ -21,14 +21,29 @@ router.post('/agregar', (req, res, next) =>{
 });
 
 //Cargar productos
+<<<<<<< HEAD
 router.get('/productos', (req, res, next) =>{
+=======
+router.post('/productos', (req, res, next) =>{
+>>>>>>> productos
 	const supermercado = req.body.supermercado;
 
 	Lista.getProductos(supermercado, (err, lista) =>{
 		if(err){
 			res.json({success: false, msg:'Error xxx'});
 		} else{
+<<<<<<< HEAD
 			res.json();
+=======
+			res.json({
+					success: true,
+					token: 'JWT ' ,
+					productos:{
+						name: res.nombre,
+						id: res._id
+					}
+				});
+>>>>>>> productos
 		}
 	});
 });
