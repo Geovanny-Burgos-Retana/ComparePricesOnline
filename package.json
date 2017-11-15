@@ -1,22 +1,17 @@
 {
-  "name": "supermercado",
+  "name": "meansupermercado",
   "version": "1.0.0",
-  "description": "MEAN stack Productos app",
-  "main": "app.js",
+  "description": "Comparador de precio de productos",
+  "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node app"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "author": "",
+  "license": "ISC",
   "dependencies": {
-    "express": "*",
-    "mongoose": "*",
-    "bcryptjs": "*",
-    "cors": "*",
-    "jsonwebtoken": "*",
-    "body-parser": "*",
-    "passport": "*",
-    "passport-jwt": "*"
-  },
-  "author": "Willy",
-  "license": "ISC"
+    "body-parser": "^1.18.2",
+    "ejs": "^2.5.7",
+    "express": "^4.16.2",
+    "mongojs": "^2.4.1"
+  }
 }
