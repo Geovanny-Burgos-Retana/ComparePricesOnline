@@ -1,48 +1,44 @@
-const express = require('express');
-const router = express.Router();
-const Lista = require('../models/lista');
+var express = require('express');
+var router = express.Router();
+var mongojs = require('mongojs');
+var db = mongojs('mongodb://gio:123@ds157475.mlab.com:57475/compare-prices-online', ['listas', 'productos']);
 
-//Registrar
-router.post('/agregar', (req, res, next) =>{
-	let newList = new Lista({
-		nombre: req.body.nombre,
-		supermercado: req.body.supermercado,
-		productos: req.body.productos
-	});
-	
-
-	Lista.addLista(newList, (err, user) =>{
-		if(err){
-			res.json({success: false, msg:'Error al crear Lista'});
-		} else{
-			res.json({success: true, msg:'Lista creada'});
-		}
-	});
+//get todas las listas
+router.get('/listas', function(req, res, next){
+    db.listas.find(function(err, listas){
+    	if(err){
+    		res.send(err);
+    	}
+    	res.json(listas);
+    });
 });
 
-//Cargar productos
-router.post('/productos', (req, res, next) =>{
-	const supermercado = req.body.supermercado;
-
-	Lista.getProductos(supermercado, (err, lista) =>{
-		if(err){
-			res.json({success: false, msg:'Error xxx'});
-		} else{
-			res.json({
-					success: true,
-					token: 'JWT ' ,
-					productos:{
-						name: res.nombre,
-						id: res._id
-					}
-				});
-		}
-	});
+//Guardar lista
+router.post('/lista', function(req, res, next){
+    var lista = req.body;
+    if(!lista.nombre ){
+        res.status(400);
+        res.json({
+            "error": "Bad Data"
+        });
+    } else {
+        db.listas.save(lista, function(err, lista){
+            if(err){
+                res.send(err);
+            }
+            res.json(lista);
+        });
+    }
 });
 
-//modificar
-router.get('/modificar', (req, res, next) =>{
-	res.send('MODIFICAR');
+// borrar lista
+router.delete('/lista/:id', function(req, res, next){
+    db.listas.remove({_id: mongojs.ObjectId(req.params.id)}, function(err, lista){
+        if(err){
+            res.send(err);
+        }
+        res.json(lista);
+    });
 });
 
 module.exports = router;
